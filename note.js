@@ -10,26 +10,29 @@ class Note {
 
   display() {
     push();
+    // black or white
     strokeWeight(3);
-    if (this.barre) {
-      line(this.x - 15, this.y, this.x + 15, this.y);
-    }
-    if (this.queue == 'bas') {
-      // pointe vers le bas
-      line(this.x - 9, this.y, this.x - 9, this.y + 40);
-    } else if (this.queue == 'haut') {
-      // pointe vers le haut
-      line(this.x + 9, this.y, this.x + 9, this.y - 40);
-    }
-
-    // round part
-    // strokeWeight(1);
-    if (this.type == 'noire') {
+    if (this.type == 'noire')
       fill(0);
-    } else if (this.type == 'blanche') {
+    else if (this.type == 'blanche')
       fill(255);
-    }
-    ellipse(this.x, this.y, 20, 20); 
+    translate(this.x, this.y);
+
+    // little bar
+    strokeWeight(2);
+    if (this.queue == 'haut')
+      line(10, 0, 10, -60);
+    else if (this.queue == 'bas')
+      line(-10, 0, -10, 60);
+
+    // elliptic part
+    rotate(-PI / 10);
+    ellipse(0, 0, 20, 15);
     pop();
+
+    // if outside of partoche
+    if (this.barre) {
+      line(this.x-15, this.y, this.x+15, this.y);
+    }
   }
 }

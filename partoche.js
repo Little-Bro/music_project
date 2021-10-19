@@ -80,9 +80,11 @@ class Partoche {
       this.canAddNote = true;
     }
 
-    // TODO : avoid collision
     noStroke();
-    ellipse(mouseX, mouseY, 20, 20);
+    translate(mouseX, mouseY);
+    strokeWeight(2);
+    rotate(-PI / 10);
+    ellipse(0, 0, 20, 15);
     pop();
   }
 
