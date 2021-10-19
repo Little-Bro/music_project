@@ -36,7 +36,7 @@ class Partoche {
     let closest = this.detectClosest(notes);
     if (closest) {
       let d = dist(mouseX, mouseY, closest.x, closest.y);
-      return (d < 20);
+      return (d < 25);
     }
   }
 
