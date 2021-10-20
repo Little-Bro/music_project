@@ -9,12 +9,7 @@ class Partoche {
   display(notes) {
     // determines the note
     this.determineNote();
-
-    // drawing a red/green circle depending on
-    // mouse position
-    let collision = this.isMouseColliding(notes);
-    this.checkMouse(collision);
-
+    
     // displaying the lines
     const espace = 20;
     // vertical lines
@@ -77,7 +72,7 @@ class Partoche {
   checkMouse(collision) {
     push();
     this.displayOtherLines();
-    if (!this.isMouseInPartoche() || collision) {
+    if (collision) {
       fill(255, 0, 0, 150);
       this.canAddNote = false;
     } else {

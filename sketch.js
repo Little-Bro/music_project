@@ -16,7 +16,6 @@ function setup() {
 
 function draw() {
   background(255);
-
   // looping through all the lines
   for (let i = 0; i < 3; i++) {
     /* displaying symbols at the 
@@ -27,6 +26,11 @@ function draw() {
 
     // displaying the lines
     partoches[i].display(notes);
+
+    // green / red cursor
+    if (partoches[i].isMouseInPartoche()) {
+      partoches[i].checkMouse(partoches[i].isMouseColliding(notes));
+    }
   }
 
   // displaying the notes
@@ -47,3 +51,4 @@ function mouseReleased() {
     } 
   }
 }
+
