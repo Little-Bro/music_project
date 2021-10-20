@@ -1,5 +1,4 @@
 {
-  "rien": ["do-majeur", "la-mineur"],
   "dieses" : {
     "1": ["sol-majeur", "mi-mineur"],
     "2": ["re-majeur", "si-mineur"],
@@ -18,5 +17,4 @@
     "6": ["solb-majeur", "mib-mineur"],
     "7": ["dob-majeur", "lab-mineur"]
   }
-
 }

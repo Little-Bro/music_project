@@ -24,7 +24,7 @@ function setup() {
   // partoche object
   partoche = {
     "nom": 'partoche',
-    "gamme": 'dob-majeur',
+    "gamme": 'mi-majeur',
     "tempo" : '76',
     "lignes": lignes,
     "notes": notes
@@ -109,8 +109,8 @@ function getArmature(gamme) {
   let num = 0;
   let type = '';
 
-  let d = Object.values(alterations)[1];
-  let b = Object.values(alterations)[2];
+  let d = Object.values(alterations)[0];
+  let b = Object.values(alterations)[1];
 
   // dieses
   for (let i = 0; i < Object.values(d).length; i++) {
