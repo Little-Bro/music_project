@@ -4,8 +4,11 @@ let notes = [];
 let lignes = [];
 let dieses = [];
 let bemols = [];
+let results = [];
+let notesY_d = [];
+let notesY_b = [];
 // images
-let cle_sol, c;
+let cle_sol, c, bemol;
 // other
 let partoche;
 let gamme;
@@ -14,6 +17,7 @@ let gamme;
 function preload() {
   cle_sol = loadImage('./cle_sol.png');
   c = loadImage('./c.png');
+  bemol = loadImage('./bemol.png');
   alterations = loadJSON('./alterations.json');
 }
 
@@ -24,25 +28,37 @@ function setup() {
   // partoche object
   partoche = {
     "nom": 'partoche',
-    "gamme": 'dob-majeur',
+    "gamme": 'lab-majeur',
     "tempo" : '76',
     "lignes": lignes,
     "notes": notes
   };
 
-
   // alterations
+  // TODO : improve this system
+  notesY_d = {
+    "fa": '20',
+    "do": '50',
+    "sol": '10',
+    "re": '40',
+    "la": '70',
+    "mi": '30',
+    "si": '60',
+  };
+
+  notesY_b = {
+    "si": '60',
+    "mi": '30',
+    "la": '70',
+    "re": '40',
+    "sol": '80',
+    "do": '50',
+    "fa": '90',
+  };
+
   bemols = ['si', 'mi', 'la', 're', 'sol', 'do', 'fa'];
   dieses = [ ...bemols].reverse();
-  let results = getArmature(partoche.gamme); // [num, type]
-  console.log(`${results[0]} ${results[1]}`);
-  for (let i = 0; i < results[0]; i++) {
-    if (results[1] == 'bemol') {
-      console.log(bemols[i]);
-    } else {
-      console.log(dieses[i]);
-    }
-  }
+  results = getArmature(partoche.gamme); // [num, type]
 
   // lines
   for (let i = 0; i < 3; i++) {
@@ -53,6 +69,19 @@ function setup() {
 /* ------- DRAW FUNCTION ------- */
 function draw() {
   background(255);
+
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < results[0]; j++) {
+      if (results[1] == 'bemol') {
+        bemol.resize(60, 0);
+        image(bemol, 110 + j*20, 115 + i * 200 + parseInt(notesY_b[bemols[j]]));
+      } else {
+        textSize(30);
+        text('#', 130 + j*20, 160 + i * 200 + parseInt(notesY_d[dieses[j]]));
+      }
+    }
+  }
+
   // displaying tempo
   displayTempoNote(110, 120);
   textSize(24);
@@ -109,8 +138,6 @@ function displayTempoNote(x, y) {
     pop();
 }
 
-
-// DON'T NEED FIRST LINE OF JSON FILE
 function getArmature(gamme) {
   let num = 0;
   let type = '';
