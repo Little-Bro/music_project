@@ -1,5 +1,5 @@
 let notes = [];
-let partoches = [];
+let lignes = [];
 let cle_sol, c;
 
 function preload() {
@@ -10,7 +10,7 @@ function preload() {
 function setup() {
   createCanvas(1400, 800);
   for (let i = 0; i < 3; i++) {
-    partoches.push(new Partoche(150 + i * 200, notes));
+    lignes.push(new Ligne(150 + i * 200, notes));
   }
 }
 
@@ -25,11 +25,11 @@ function draw() {
     c.resize(85, 0);
 
     // displaying the lines
-    partoches[i].display(notes);
+    lignes[i].display(notes);
 
     // green / red cursor
-    if (partoches[i].isMouseInPartoche()) {
-      partoches[i].checkMouse(partoches[i].isMouseColliding(notes));
+    if (lignes[i].isMouseInLigne()) {
+      lignes[i].checkMouse(lignes[i].isMouseColliding(notes));
     }
   }
 
@@ -42,12 +42,12 @@ function draw() {
 }
 
 function mouseReleased() {
-  for (p of partoches) {
-    if (p.isMouseInPartoche()) {
+  for (ligne of lignes) {
+    if (ligne.isMouseInLigne()) {
       if (keyIsDown(SHIFT))
-        p.addNote('blanche');
+        ligne.addNote('blanche');
       else
-        p.addNote('noire');
+        ligne.addNote('noire');
     } 
   }
 }
