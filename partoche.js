@@ -4,6 +4,8 @@ class Partoche {
     this.hauteur = hauteur;
     this.notes = notes;
     this.canAddNote = true;
+    this.tailleM = 350;
+
   }
 
   display(notes) {
@@ -18,8 +20,15 @@ class Partoche {
     // displaying the lines
     const espace = 20;
     strokeWeight(4)
-    line(5, this.hauteur + espace, 5, this.hauteur + 5*espace)
+    // vertical lines
+    line(10, this.hauteur + espace, 10, this.hauteur + 5*espace)
+    line(width - 10, this.hauteur + espace, width - 10, this.hauteur + 5 * espace);
+    // mesures
     strokeWeight(1);
+    for (let i = 0; i < 3; i++) {
+      line(i * this.tailleM + this.tailleM, this.hauteur + espace, i * this.tailleM + this.tailleM, this.hauteur + 5 * espace);
+    }
+    // horizontal lines
     for (let i = 0; i < 5; i++) {
       line(10, (this.hauteur + i * espace + espace), width - 10, (this.hauteur + i * espace + espace));
     }
@@ -28,7 +37,7 @@ class Partoche {
   // checking if the mouse is within the boundaries
   // of the partoche
   isMouseInPartoche() {
-    return (mouseX > 90 && mouseX < (width - 5) 
+    return (mouseX > 150 && mouseX < (width - 5) 
       && mouseY > (this.hauteur - 40) && mouseY < (this.hauteur + 7 * 20));
   }
 
