@@ -18,13 +18,14 @@ function setup() {
   createCanvas(1400, 800);
 
   for (let i = 0; i < 3; i++) {
-    lignes.push(new Ligne(150 + i * 200, notes));
+    lignes.push(new Ligne(150 + i * 200));
   }
 
   // partoche object
   partoche = {
     "nom": 'partoche',
-    "gamme": '',
+    "gamme": 'do-majeur',
+    "tempo" : '76',
     "lignes": lignes,
     "notes": notes
   };
@@ -33,6 +34,11 @@ function setup() {
 /* ------- DRAW FUNCTION ------- */
 function draw() {
   background(255);
+  // displaying tempo
+  displayTempoNote(110, 120);
+  textSize(24);
+  text(`= ${partoche.tempo}`, 130, 125);
+
   // looping through all the lines
   for (let i = 0; i < 3; i++) {
     /* displaying symbols at the 
@@ -42,7 +48,7 @@ function draw() {
     c.resize(85, 0);
 
     // displaying the lines
-    lignes[i].display(notes);
+    lignes[i].display();
 
     // green / red cursor
     if (lignes[i].isMouseInLigne()) {
@@ -67,4 +73,19 @@ function mouseReleased() {
         ligne.addNote('noire');
     }
   }
+}
+
+function displayTempoNote(x, y) {
+    push();
+    translate(x, y);
+
+    // little bar
+    strokeWeight(2);
+    line(5, 0, 5, -30);
+
+    // elliptic part
+    rotate(-PI / 10);
+    fill(0);
+    ellipse(0, 0, 10, 7);
+    pop();
 }

@@ -1,12 +1,12 @@
 class Ligne {
-  constructor(hauteur, notes) {
+  constructor(hauteur) {
     this.hauteur = hauteur;
-    this.notes = notes;
+    //this.notes = notes;
     this.canAddNote = true;
     this.tailleM = 350;
   }
 
-  display(notes) {
+  display() {
     // determines the note
     this.determineNote();
 
@@ -186,7 +186,7 @@ class Ligne {
       note.y += 10;
 
     // displaying note name
-    text(note.nom, mouseX + 5, mouseY);
+    text(note.nom, mouseX + 10, mouseY);
 
     return note;
   }
@@ -196,7 +196,7 @@ class Ligne {
     if (this.canAddNote) {
       const n = this.determineNote();
       n.type = type;
-      this.notes.push(new Note(mouseX, n.y, n.type, n.nom, n.queue, n.bar));
+      notes.push(new Note(mouseX, n.y, n.type, n.nom, n.queue, n.bar));
     }
   }
 }
