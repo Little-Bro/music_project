@@ -1,0 +1,22 @@
+{
+  "rien": ["do-majeur", "la-mineur"],
+  "dieses" : {
+    "1": ["sol-majeur", "mi-mineur"],
+    "2": ["re-majeur", "si-mineur"],
+    "3": ["la-majeur", "fad-mineur"],
+    "4": ["mi-majeur", "dod-mineur"],
+    "5": ["si-majeur", "sold-mineur"],
+    "6": ["fad-majeur", "red-mineur"],
+    "7": ["dod-majeur", "lad-mineur"]
+  }, 
+  "bemols" : {
+    "1": ["fa-majeur", "re-mineur"],
+    "2": ["sib-majeur", "sol-mineur"],
+    "3": ["mib-majeur", "do-mineur"],
+    "4": ["lab-majeur", "fa-mineur"],
+    "5": ["reb-majeur", "sib-mineur"],
+    "6": ["solb-majeur", "mib-mineur"],
+    "7": ["dob-majeur", "lab-mineur"]
+  }
+
+}

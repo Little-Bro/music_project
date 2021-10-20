@@ -30,7 +30,7 @@ class Note {
     ellipse(0, 0, 20, 15);
     pop();
 
-    // if outside of partoche
+    // if outside of line
     if (this.barre) {
       line(this.x-15, this.y, this.x+15, this.y);
     }

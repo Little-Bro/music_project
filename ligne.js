@@ -112,75 +112,75 @@ class Ligne {
         note.bar = 'true';
       }
       break;
-    case 1: {
-      note.nom = 'la';
-      note.queue = 'bas';
-      note.bar = 'true';
-    }
-    break;
-    case 2: {
-      note.nom = 'fa';
-      note.queue = 'bas';
-    }
-    break;
-    case 3: {
-      note.nom = 're';
-      note.queue = 'bas';
-    }
-    break;
-    case 4: {
-      note.nom = 'si';
-      note.queue = 'bas';
-    }
-    break;
-    case 5: {
-      note.nom = 'sol';
-      note.queue = 'haut';
-    }
-    break;
-    case 6: {
-      note.nom = 'mi';
-      note.queue = 'haut';
-    }
-    break;
-    case 7: {
-      note.nom = 'do';
-      note.queue = 'haut';
-      note.bar = 'true';
-      note.y = this.hauteur + 6 * espace;
-    }
-    break;
-    }
+      case 1: {
+        note.nom = 'la';
+        note.queue = 'bas';
+        note.bar = 'true';
+      }
+      break;
+      case 2: {
+        note.nom = 'fa';
+        note.queue = 'bas';
+      }
+      break;
+      case 3: {
+        note.nom = 're';
+        note.queue = 'bas';
+      }
+      break;
+      case 4: {
+        note.nom = 'si';
+        note.queue = 'bas';
+      }
+      break;
+      case 5: {
+        note.nom = 'sol';
+        note.queue = 'haut';
+      }
+      break;
+      case 6: {
+        note.nom = 'mi';
+        note.queue = 'haut';
+      }
+      break;
+      case 7: {
+        note.nom = 'do';
+        note.queue = 'haut';
+        note.bar = 'true';
+        note.y = this.hauteur + 6 * espace;
+      }
+      break;
+      }
 
-    if (mouse_y > 0 && mouse_y < 1) {
-      note.nom = 'si';
-      note.queue = 'bas';
-      between_lines = true;
-    } else if (mouse_y > 1 && mouse_y < 2) {
-      note.nom = 'sol';
-      note.queue = 'bas';
-      between_lines = true;
-    } else if (mouse_y > 2 && mouse_y < 3) {
-      note.nom = 'mi'
-      note.queue = 'bas';
-      between_lines = true;
-    } else if (mouse_y > 3 && mouse_y < 4) {
-      note.nom = 'do'
-      note.queue = 'bas';
-      between_lines = true;
-    } else if (mouse_y > 4 && mouse_y < 5) {
-      note.nom = 'la'
-      note.queue = 'haut';
-      between_lines = true;
-    } else if (mouse_y > 5 && mouse_y < 6) {
-      note.nom = 'fa'
-      note.queue = 'haut';
-      between_lines = true;
-    } else if (mouse_y > 6 && mouse_y < 7) {
-      note.nom = 're'
-      note.queue = 'haut';
-      between_lines = true;
-    }
+      if (mouse_y > 0 && mouse_y < 1) {
+        note.nom = 'si';
+        note.queue = 'bas';
+        between_lines = true;
+      } else if (mouse_y > 1 && mouse_y < 2) {
+        note.nom = 'sol';
+        note.queue = 'bas';
+        between_lines = true;
+      } else if (mouse_y > 2 && mouse_y < 3) {
+        note.nom = 'mi'
+        note.queue = 'bas';
+        between_lines = true;
+      } else if (mouse_y > 3 && mouse_y < 4) {
+        note.nom = 'do'
+        note.queue = 'bas';
+        between_lines = true;
+      } else if (mouse_y > 4 && mouse_y < 5) {
+        note.nom = 'la'
+        note.queue = 'haut';
+        between_lines = true;
+      } else if (mouse_y > 5 && mouse_y < 6) {
+        note.nom = 'fa'
+        note.queue = 'haut';
+        between_lines = true;
+      } else if (mouse_y > 6 && mouse_y < 7) {
+        note.nom = 're'
+        note.queue = 'haut';
+        between_lines = true;
+      }
 
     if (between_lines)
       note.y += 10;

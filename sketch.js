@@ -2,33 +2,46 @@
 // lists
 let notes = [];
 let lignes = [];
+let dieses = [];
+let bemols = [];
 // images
 let cle_sol, c;
-// objects
+// other
 let partoche;
+let gamme;
 
 /* ------- PRELOAD FUNCTION ------- */
 function preload() {
   cle_sol = loadImage('./cle_sol.png');
   c = loadImage('./c.png');
+  alterations = loadJSON('./alterations.json');
 }
 
 /* ------- SETUP FUNCTION ------- */
 function setup() {
   createCanvas(1400, 800);
-
-  for (let i = 0; i < 3; i++) {
-    lignes.push(new Ligne(150 + i * 200));
-  }
-
+  
   // partoche object
   partoche = {
     "nom": 'partoche',
-    "gamme": 'do-majeur',
+    "gamme": 'dob-majeur',
     "tempo" : '76',
     "lignes": lignes,
     "notes": notes
   };
+
+  // alterations
+  bemols = ['si', 'mi', 'la', 're', 'sol', 'do', 'fa'];
+  dieses = bemols.reverse();
+
+  let results = getArmature(partoche.gamme);
+  console.log(`${results[0]} ${results[1]}`);
+
+  // lines
+  for (let i = 0; i < 3; i++) {
+    lignes.push(new Ligne(150 + i * 200));
+  }
+
 }
 
 /* ------- DRAW FUNCTION ------- */
@@ -88,4 +101,32 @@ function displayTempoNote(x, y) {
     fill(0);
     ellipse(0, 0, 10, 7);
     pop();
+}
+
+
+// DON'T NEED FIRST LINE OF JSON FILE
+function getArmature(gamme) {
+  let num = 0;
+  let type = '';
+
+  let d = Object.values(alterations)[1];
+  let b = Object.values(alterations)[2];
+
+  // dieses
+  for (let i = 0; i < Object.values(d).length; i++) {
+    if (Object.values(d)[i].includes(gamme)) {
+      num = i + 1;
+      type = 'diese';
+    }
+  }
+  
+  // bemols
+  for (let i = 0; i < Object.values(b).length; i++) {
+    if (Object.values(b)[i].includes(gamme)) {
+      num = i + 1;
+      type = 'bemol';
+    }
+  }
+
+  return [num, type];
 }
