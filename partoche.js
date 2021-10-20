@@ -1,6 +1,5 @@
 class Partoche {
-  constructor(cle, hauteur, notes) {
-    this.cle = cle;
+  constructor(hauteur, notes) {
     this.hauteur = hauteur;
     this.notes = notes;
     this.canAddNote = true;
@@ -14,7 +13,7 @@ class Partoche {
     // drawing a red/green circle depending on
     // mouse position
     let collision = this.isMouseColliding(notes);
-    this.checkMouse(notes, collision);
+    this.checkMouse(collision);
 
     // displaying the lines
     const espace = 20;
@@ -75,7 +74,7 @@ class Partoche {
   }
 
   // drawing green/red cursor
-  checkMouse(notes, collision) {
+  checkMouse(collision) {
     push();
     this.displayOtherLines();
     if (!this.isMouseInPartoche() || collision) {
