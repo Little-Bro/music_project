@@ -24,24 +24,30 @@ function setup() {
   // partoche object
   partoche = {
     "nom": 'partoche',
-    "gamme": 'mi-majeur',
+    "gamme": 'dob-majeur',
     "tempo" : '76',
     "lignes": lignes,
     "notes": notes
   };
 
+
   // alterations
   bemols = ['si', 'mi', 'la', 're', 'sol', 'do', 'fa'];
-  dieses = bemols.reverse();
-
-  let results = getArmature(partoche.gamme);
+  dieses = [ ...bemols].reverse();
+  let results = getArmature(partoche.gamme); // [num, type]
   console.log(`${results[0]} ${results[1]}`);
+  for (let i = 0; i < results[0]; i++) {
+    if (results[1] == 'bemol') {
+      console.log(bemols[i]);
+    } else {
+      console.log(dieses[i]);
+    }
+  }
 
   // lines
   for (let i = 0; i < 3; i++) {
     lignes.push(new Ligne(150 + i * 200));
   }
-
 }
 
 /* ------- DRAW FUNCTION ------- */
