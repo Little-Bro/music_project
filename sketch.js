@@ -21,10 +21,12 @@ function setup() {
     lignes.push(new Ligne(150 + i * 200, notes));
   }
 
-    partoche = {
-    "nom" : 'partoche',
-    "gamme" : '',
-    "lignes" : lignes
+  // partoche object
+  partoche = {
+    "nom": 'partoche',
+    "gamme": '',
+    "lignes": lignes,
+    "notes": notes
   };
 }
 
@@ -35,8 +37,8 @@ function draw() {
   for (let i = 0; i < 3; i++) {
     /* displaying symbols at the 
      * beginning of lines */
-    image(cle_sol, 5, 130+ i * 200);
-    image(c, 60, 165+ i * 200);
+    image(cle_sol, 5, 130 + i * 200);
+    image(c, 60, 165 + i * 200);
     c.resize(85, 0);
 
     // displaying the lines
@@ -63,7 +65,6 @@ function mouseReleased() {
         ligne.addNote('blanche');
       else
         ligne.addNote('noire');
-    } 
+    }
   }
 }
-
