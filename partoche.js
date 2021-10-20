@@ -5,7 +5,6 @@ class Partoche {
     this.notes = notes;
     this.canAddNote = true;
     this.tailleM = 350;
-
   }
 
   display(notes) {
@@ -19,9 +18,8 @@ class Partoche {
 
     // displaying the lines
     const espace = 20;
-    strokeWeight(4)
     // vertical lines
-    line(10, this.hauteur + espace, 10, this.hauteur + 5*espace)
+    line(10, this.hauteur + espace, 10, this.hauteur + 5 * espace)
     line(width - 10, this.hauteur + espace, width - 10, this.hauteur + 5 * espace);
     // mesures
     strokeWeight(1);
@@ -37,8 +35,8 @@ class Partoche {
   // checking if the mouse is within the boundaries
   // of the partoche
   isMouseInPartoche() {
-    return (mouseX > 150 && mouseX < (width - 5) 
-      && mouseY > (this.hauteur - 40) && mouseY < (this.hauteur + 7 * 20));
+    return (mouseX > 150 && mouseX < (width - 5) &&
+      mouseY > (this.hauteur - 40) && mouseY < (this.hauteur + 7 * 20));
   }
 
   isMouseColliding(notes) {
@@ -57,8 +55,7 @@ class Partoche {
       if ((mouseY > this.hauteur - 20)) {
         line(10, this.hauteur, width - 10, this.hauteur)
       }
-    }
-     else if (mouseY > this.hauteur + 5 * 20 && mouseY < this.hauteur + 7 * 20) {
+    } else if (mouseY > this.hauteur + 5 * 20 && mouseY < this.hauteur + 7 * 20) {
       line(10, this.hauteur + 6 * 20, width - 10, this.hauteur + 6 * 20);
     }
     pop();
@@ -98,7 +95,12 @@ class Partoche {
   }
 
   determineNote() {
-    let note = { nom: "", y: "", queue: "", bar: ""};
+    let note = {
+      nom: "",
+      y: "",
+      queue: "",
+      bar: ""
+    };
 
     const start = this.hauteur - 20;
     const espace = 20;
@@ -109,87 +111,78 @@ class Partoche {
     // determining height
     note.y = start + (20 * Math.trunc(mouse_y));
 
-    switch(mouse_y) {
+    switch (mouse_y) {
       case 0: {
         note.nom = 'do';
         note.queue = 'bas';
         note.bar = 'true';
       }
       break;
-      case 1: {
-        note.nom = 'la';
-        note.queue = 'bas';
-        note.bar = 'true';
-      }
-      break;
-      case 2: {
-        note.nom = 'fa';
-        note.queue = 'bas';
-      }
-      break;
-      case 3: {
-        note.nom = 're';
-        note.queue = 'bas';
-      }
-      break;
-      case 4: {
-        note.nom = 'si';
-        note.queue = 'bas';
-      }
-      break;
-      case 5: {
-        note.nom = 'sol';
-        note.queue = 'haut';
-      }
-      break;
-      case 6: {
-        note.nom = 'mi';
-        note.queue = 'haut';
-      }
-      break;
-      case 7: {
-        note.nom = 'do';
-        note.queue = 'haut';
-        note.bar = 'true';
-        note.y = this.hauteur + 6 * espace;
-      }
-      break;
+    case 1: {
+      note.nom = 'la';
+      note.queue = 'bas';
+      note.bar = 'true';
+    }
+    break;
+    case 2: {
+      note.nom = 'fa';
+      note.queue = 'bas';
+    }
+    break;
+    case 3: {
+      note.nom = 're';
+      note.queue = 'bas';
+    }
+    break;
+    case 4: {
+      note.nom = 'si';
+      note.queue = 'bas';
+    }
+    break;
+    case 5: {
+      note.nom = 'sol';
+      note.queue = 'haut';
+    }
+    break;
+    case 6: {
+      note.nom = 'mi';
+      note.queue = 'haut';
+    }
+    break;
+    case 7: {
+      note.nom = 'do';
+      note.queue = 'haut';
+      note.bar = 'true';
+      note.y = this.hauteur + 6 * espace;
+    }
+    break;
     }
 
     if (mouse_y > 0 && mouse_y < 1) {
       note.nom = 'si';
       note.queue = 'bas';
       between_lines = true;
-    }
-    
-    else if (mouse_y > 1 && mouse_y < 2){
+    } else if (mouse_y > 1 && mouse_y < 2) {
       note.nom = 'sol';
       note.queue = 'bas';
       between_lines = true;
-    }
-
-    else if (mouse_y > 2 && mouse_y < 3) {
-      note.nom = 'mi' 
+    } else if (mouse_y > 2 && mouse_y < 3) {
+      note.nom = 'mi'
       note.queue = 'bas';
       between_lines = true;
-    }
-
-    else if (mouse_y > 3 && mouse_y < 4) {
+    } else if (mouse_y > 3 && mouse_y < 4) {
       note.nom = 'do'
       note.queue = 'bas';
       between_lines = true;
-    }
-    else if (mouse_y > 4 && mouse_y < 5) {
+    } else if (mouse_y > 4 && mouse_y < 5) {
       note.nom = 'la'
       note.queue = 'haut';
       between_lines = true;
-    }
-    else if (mouse_y > 5 && mouse_y < 6) {
+    } else if (mouse_y > 5 && mouse_y < 6) {
       note.nom = 'fa'
       note.queue = 'haut';
       between_lines = true;
-    }
-    else if (mouse_y > 6 && mouse_y < 7) {
+    } else if (mouse_y > 6 && mouse_y < 7) {
       note.nom = 're'
       note.queue = 'haut';
       between_lines = true;
@@ -207,9 +200,9 @@ class Partoche {
   // adding a note
   addNote(type) {
     if (this.canAddNote) {
-    const n = this.determineNote();
-    n.type = type;
-    this.notes.push(new Note(mouseX, n.y, n.type, n.nom, n.queue, n.bar));     
+      const n = this.determineNote();
+      n.type = type;
+      this.notes.push(new Note(mouseX, n.y, n.type, n.nom, n.queue, n.bar));
     }
   }
 }
