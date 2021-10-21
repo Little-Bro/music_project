@@ -216,7 +216,6 @@ class Ligne {
       const n = this.determineNote();
       if (n.nom) {
         n.type = type;
-        console.log(n.nom);
         this.playNote(n.nom, n.hauteur);
         notes.push(new Note(mouseX, n.y, n.type, n.nom, n.queue, n.bar));
       }

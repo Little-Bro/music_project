@@ -13,6 +13,7 @@ let cle_sol, c, bemol;
 let partoche;
 let gamme;
 let alterations, frequencies; // JSON
+let numLignes;
 
 /* ------- PRELOAD FUNCTION ------- */
 function preload() {
@@ -54,7 +55,9 @@ function setup() {
   results = getArmature(partoche.gamme); // [num, type]
 
   // lines
-  for (let i = 0; i < 3; i++) {
+  numLignes = partoche.lignes;
+
+  for (let i = 0; i < numLignes; i++) {
     lignes.push(new Ligne(150 + i * 200, frequencies));
   }
 }
@@ -63,7 +66,7 @@ function setup() {
 function draw() {
   background(255);
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < numLignes; i++) {
     for (let j = 0; j < results[0]; j++) {
       if (results[1] == 'bemol') {
         bemol.resize(60, 0);
@@ -77,7 +80,7 @@ function draw() {
 
   // displaying name of partoche
   textSize(60);
-  text(partoche.nom, width / 2 - 6, 80);
+  text(partoche.nom, width / 2 - (partoche.nom.length * 10), 80);
   textSize(20);
   text(`par ${partoche.auteur}`, width / 2 - 30, 110);
 
@@ -87,7 +90,7 @@ function draw() {
   text(`= ${partoche.tempo}`, 130, 125);
 
   // looping through all the lines
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < numLignes; i++) {
     /* displaying symbols at the 
      * beginning of lines */
     image(cle_sol, 5, 130 + i * 200);
