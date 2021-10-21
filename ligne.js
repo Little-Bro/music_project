@@ -214,10 +214,12 @@ class Ligne {
   addNote(type) {
     if (this.canAddNote) {
       const n = this.determineNote();
-      n.type = type;
-      //console.log(n.nom + '4');
-      this.playNote(n.nom, n.hauteur);
-      notes.push(new Note(mouseX, n.y, n.type, n.nom, n.queue, n.bar));
+      if (n.nom) {
+        n.type = type;
+        console.log(n.nom);
+        this.playNote(n.nom, n.hauteur);
+        notes.push(new Note(mouseX, n.y, n.type, n.nom, n.queue, n.bar));
+      }
     }
   }
 
