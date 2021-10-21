@@ -12,6 +12,7 @@ let cle_sol, c, bemol;
 // other
 let partoche;
 let gamme;
+let alterations, frequencies; // JSON
 
 /* ------- PRELOAD FUNCTION ------- */
 function preload() {
@@ -19,16 +20,17 @@ function preload() {
   c = loadImage('./c.png');
   bemol = loadImage('./bemol.png');
   alterations = loadJSON('./alterations.json');
+  frequencies = loadJSON('./frequencies.json');
 }
 
 /* ------- SETUP FUNCTION ------- */
 function setup() {
   createCanvas(1400, 800);
-  
+
   // partoche object
   partoche = {
     "nom": 'partoche',
-    "gamme": 'lab-majeur',
+    "gamme": 'fa-majeur',
     "tempo" : '76',
     "lignes": lignes,
     "notes": notes
@@ -62,7 +64,7 @@ function setup() {
 
   // lines
   for (let i = 0; i < 3; i++) {
-    lignes.push(new Ligne(150 + i * 200));
+    lignes.push(new Ligne(150 + i * 200, frequencies));
   }
 }
 
@@ -121,6 +123,7 @@ function mouseReleased() {
         ligne.addNote('noire');
     }
   }
+  //playNote('440');
 }
 
 function displayTempoNote(x, y) {

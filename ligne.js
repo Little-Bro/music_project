@@ -1,9 +1,11 @@
 class Ligne {
-  constructor(hauteur) {
+  constructor(hauteur, frequencies) {
     this.hauteur = hauteur;
+    this.frequencies = frequencies;
     //this.notes = notes;
     this.canAddNote = true;
     this.tailleM = 350;
+    this.monoSynth = new p5.MonoSynth();
   }
 
   display() {
@@ -93,7 +95,8 @@ class Ligne {
       nom: "",
       y: "",
       queue: "",
-      bar: ""
+      bar: "",
+      hauteur: "" // 4 ou 5
     };
 
     const start = this.hauteur - 20;
@@ -110,37 +113,45 @@ class Ligne {
         note.nom = 'do';
         note.queue = 'bas';
         note.bar = 'true';
+        note.hauteur = '6';
       }
       break;
       case 1: {
         note.nom = 'la';
         note.queue = 'bas';
         note.bar = 'true';
+        note.hauteur = '5';
       }
       break;
       case 2: {
         note.nom = 'fa';
         note.queue = 'bas';
+        note.hauteur = '5';
       }
       break;
       case 3: {
         note.nom = 're';
         note.queue = 'bas';
+        note.hauteur = '5';
       }
       break;
       case 4: {
         note.nom = 'si';
         note.queue = 'bas';
+        note.hauteur = '4';
+
       }
       break;
       case 5: {
         note.nom = 'sol';
         note.queue = 'haut';
+        note.hauteur = '4';
       }
       break;
       case 6: {
         note.nom = 'mi';
         note.queue = 'haut';
+        note.hauteur = '4';
       }
       break;
       case 7: {
@@ -148,6 +159,7 @@ class Ligne {
         note.queue = 'haut';
         note.bar = 'true';
         note.y = this.hauteur + 6 * espace;
+        note.hauteur = '4';
       }
       break;
       }
@@ -155,30 +167,37 @@ class Ligne {
       if (mouse_y > 0 && mouse_y < 1) {
         note.nom = 'si';
         note.queue = 'bas';
+        note.hauteur = '5';
         between_lines = true;
       } else if (mouse_y > 1 && mouse_y < 2) {
         note.nom = 'sol';
         note.queue = 'bas';
+        note.hauteur = '5';
         between_lines = true;
       } else if (mouse_y > 2 && mouse_y < 3) {
         note.nom = 'mi'
         note.queue = 'bas';
+        note.hauteur = '5';
         between_lines = true;
       } else if (mouse_y > 3 && mouse_y < 4) {
         note.nom = 'do'
         note.queue = 'bas';
+        note.hauteur = '5';
         between_lines = true;
       } else if (mouse_y > 4 && mouse_y < 5) {
         note.nom = 'la'
         note.queue = 'haut';
+        note.hauteur = '4';
         between_lines = true;
       } else if (mouse_y > 5 && mouse_y < 6) {
         note.nom = 'fa'
         note.queue = 'haut';
+        note.hauteur = '4';
         between_lines = true;
       } else if (mouse_y > 6 && mouse_y < 7) {
         note.nom = 're'
         note.queue = 'haut';
+        note.hauteur = '4';
         between_lines = true;
       }
 
@@ -196,7 +215,22 @@ class Ligne {
     if (this.canAddNote) {
       const n = this.determineNote();
       n.type = type;
+      //console.log(n.nom + '4');
+      this.playNote(n.nom, n.hauteur);
       notes.push(new Note(mouseX, n.y, n.type, n.nom, n.queue, n.bar));
     }
+  }
+
+  playNote(nom, hauteur) {
+    userStartAudio();
+    // note velocity (volume, from 0 to 1)
+    let velocity = 1;
+    // time from now (in seconds)
+    let time = 0;
+    // note duration (in seconds)
+    let dur = 1/6;
+    nom += hauteur;
+    let freq = this.frequencies[nom];
+    this.monoSynth.play(parseInt(freq), velocity, time, dur);
   }
 }
