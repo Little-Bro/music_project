@@ -21,21 +21,12 @@ function preload() {
   bemol = loadImage('./bemol.png');
   alterations = loadJSON('./alterations.json');
   frequencies = loadJSON('./frequencies.json');
+  partoche = loadJSON('./partoche.json');
 }
 
 /* ------- SETUP FUNCTION ------- */
 function setup() {
   createCanvas(1400, 800);
-
-  // partoche object
-  partoche = {
-    "nom": 'partoche',
-    "gamme": 'fa-majeur',
-    "tempo" : '76',
-    "lignes": lignes,
-    "notes": notes
-  };
-
   // alterations
   // TODO : improve this system
   notesY_d = {
@@ -84,6 +75,12 @@ function draw() {
     }
   }
 
+  // displaying name of partoche
+  textSize(60);
+  text(partoche.nom, width / 2 - 6, 80);
+  textSize(20);
+  text(`par ${partoche.auteur}`, width / 2 - 30, 110);
+
   // displaying tempo
   displayTempoNote(110, 120);
   textSize(24);
@@ -123,7 +120,6 @@ function mouseReleased() {
         ligne.addNote('noire');
     }
   }
-  //playNote('440');
 }
 
 function displayTempoNote(x, y) {
