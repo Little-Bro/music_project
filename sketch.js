@@ -111,9 +111,8 @@ function draw() {
     } else {
       textSize(60);
       textFont('Times New Roman');
-      let xPos = chiffrage[0] == '12' ? 45 + numAlterations * 30  : 60 + numAlterations * 30;
-      text(chiffrage[0], xPos, 210 + i * 200);
-      text(chiffrage[1], 60 + numAlterations * 30, 250 + i * 200);
+      text(chiffrage[0], results[0]*20 + 90, 210 + i * 200);
+      text(chiffrage[1], results[0]*20 + 90, 250 + i * 200);
     } 
 
     // displaying the lines
