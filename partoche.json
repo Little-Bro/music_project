@@ -1,7 +1,7 @@
 {
-  "nom": "lol",
-  "auteur": "td",
-  "gamme": "fab-majeur",
-  "tempo": "12",
-  "lignes": 2
+  "nom": "Nom de la Partition",
+  "auteur": "un auteur anonyme",
+  "gamme": "do-majeur",
+  "tempo": "60",
+  "lignes": 3
 }
