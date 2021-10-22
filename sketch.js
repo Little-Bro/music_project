@@ -4,6 +4,9 @@ let notes = [];
 let lignes = [];
 let dieses = [];
 let bemols = [];
+let bemols_notes = [];
+let dieses_notes = [];
+
 let results = [];
 let notesY_d = [];
 let notesY_b = [];
@@ -17,9 +20,12 @@ let numLignes;
 
 /* ------- PRELOAD FUNCTION ------- */
 function preload() {
+  // images
   cle_sol = loadImage('./cle_sol.png');
   c = loadImage('./c.png');
   bemol = loadImage('./bemol.png');
+
+  // JSON
   alterations = loadJSON('./alterations.json');
   frequencies = loadJSON('./frequencies.json');
   partoche = loadJSON('./partoche.json');
@@ -52,13 +58,23 @@ function setup() {
 
   bemols = ['si', 'mi', 'la', 're', 'sol', 'do', 'fa'];
   dieses = [ ...bemols].reverse();
-  results = getArmature(partoche.gamme); // [num, type]
+  results = getArmature(partoche.gamme); // returns [num, type]
 
   // lines
   numLignes = partoche.lignes;
-
   for (let i = 0; i < numLignes; i++) {
     lignes.push(new Ligne(150 + i * 200, frequencies));
+  }
+
+  // alterated notes are placed in bemols_notes and dieses_notes
+  for (let i = 0; i < numLignes; i++) {
+    for (let j = 0; j < results[0]; j++) {
+      if (results[1] == 'bemol' && i == 0) {
+        bemols_notes.push(Object.keys(notesY_b)[j]);
+      } else if (results[1] == 'diese' && i == 0) {
+        dieses_notes.push(Object.keys(notesY_d)[j]);
+      }
+    }
   }
 }
 
@@ -66,6 +82,7 @@ function setup() {
 function draw() {
   background(255);
 
+  // displaying alterations
   for (let i = 0; i < numLignes; i++) {
     for (let j = 0; j < results[0]; j++) {
       if (results[1] == 'bemol') {
@@ -76,21 +93,7 @@ function draw() {
         text('#', 130 + j*20, 160 + i * 200 + parseInt(notesY_d[dieses[j]]));
       }
     }
-  }
 
-  // displaying name of partoche
-  textSize(60);
-  text(partoche.nom, width / 2 - (partoche.nom.length * 10), 80);
-  textSize(20);
-  text(`par ${partoche.auteur}`, width / 2 - 30, 110);
-
-  // displaying tempo
-  displayTempoNote(110, 120);
-  textSize(24);
-  text(`= ${partoche.tempo}`, 130, 125);
-
-  // looping through all the lines
-  for (let i = 0; i < numLignes; i++) {
     /* displaying symbols at the 
      * beginning of lines */
     image(cle_sol, 5, 130 + i * 200);
@@ -105,6 +108,18 @@ function draw() {
       lignes[i].checkMouse(lignes[i].isMouseColliding(notes));
     }
   }
+
+  // displaying name of partoche
+  textSize(60);
+  text(partoche.nom, width / 2 - (partoche.nom.length * 10), 80);
+  textSize(20);
+  text(`par ${partoche.auteur}`, width / 2 - (partoche.auteur.length * 5), 110);
+
+  // displaying tempo
+  displayTempoNote(110, 120);
+  textSize(24);
+  text(`= ${partoche.tempo}`, 130, 125);
+
   // displaying the notes
   if (notes.length != 0) {
     for (note of notes) {
@@ -118,9 +133,9 @@ function mouseReleased() {
   for (ligne of lignes) {
     if (ligne.isMouseInLigne()) {
       if (keyIsDown(SHIFT))
-        ligne.addNote('blanche');
+        ligne.addNote('blanche', bemols_notes, dieses_notes);
       else
-        ligne.addNote('noire');
+        ligne.addNote('noire', bemols_notes, dieses_notes);
     }
   }
 }
