@@ -10,13 +10,14 @@ let dieses_notes = [];
 let results = [];
 let notesY_d = [];
 let notesY_b = [];
+
 // images
 let cle_sol, c, bemol;
 // other
 let partoche;
 let gamme;
 let alterations, frequencies; // JSON
-let numLignes;
+let numLignes, numAlterations;
 
 /* ------- PRELOAD FUNCTION ------- */
 function preload() {
@@ -35,6 +36,7 @@ function preload() {
 function setup() {
   createCanvas(1400, 800);
   // alterations
+  numAlterations = 0;
   // TODO : improve this system
   notesY_d = {
     "fa": '20',
@@ -71,8 +73,10 @@ function setup() {
     for (let j = 0; j < results[0]; j++) {
       if (results[1] == 'bemol' && i == 0) {
         bemols_notes.push(Object.keys(notesY_b)[j]);
+        numAlterations++;
       } else if (results[1] == 'diese' && i == 0) {
         dieses_notes.push(Object.keys(notesY_d)[j]);
+        numAlterations++;
       }
     }
   }
@@ -87,17 +91,17 @@ function draw() {
     for (let j = 0; j < results[0]; j++) {
       if (results[1] == 'bemol') {
         bemol.resize(60, 0);
-        image(bemol, 110 + j*20, 115 + i * 200 + parseInt(notesY_b[bemols[j]]));
+        image(bemol, 60 + j*20, 115 + i * 200 + parseInt(notesY_b[bemols[j]]));
       } else {
         textSize(30);
-        text('#', 130 + j*20, 160 + i * 200 + parseInt(notesY_d[dieses[j]]));
+        text('#', 80 + j*20, 160 + i * 200 + parseInt(notesY_d[dieses[j]]));
       }
     }
 
     /* displaying symbols at the 
      * beginning of lines */
     image(cle_sol, 5, 130 + i * 200);
-    image(c, 60, 165 + i * 200);
+    image(c, 60 + numAlterations * 20, 165 + i * 200);
     c.resize(85, 0);
 
     // displaying the lines
