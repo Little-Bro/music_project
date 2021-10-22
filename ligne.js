@@ -211,11 +211,18 @@ class Ligne {
   }
 
   // adding a note
-  addNote(type) {
+  addNote(type, bemols, dieses) {
     if (this.canAddNote) {
       const n = this.determineNote();
       if (n.nom) {
         n.type = type;
+
+        // are there any alterations ?
+        if (dieses.includes(n.nom))
+          n.nom += 'd';
+        else if (bemols.includes(n.nom))
+          n.nom += 'b';
+
         this.playNote(n.nom, n.hauteur);
         notes.push(new Note(mouseX, n.y, n.type, n.nom, n.queue, n.bar));
       }
@@ -231,6 +238,7 @@ class Ligne {
     // note duration (in seconds)
     let dur = 1/6;
     nom += hauteur;
+
     let freq = this.frequencies[nom];
     this.monoSynth.play(parseInt(freq), velocity, time, dur);
   }
