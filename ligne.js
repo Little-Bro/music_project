@@ -2,7 +2,6 @@ class Ligne {
   constructor(hauteur, frequencies) {
     this.hauteur = hauteur;
     this.frequencies = frequencies;
-    //this.notes = notes;
     this.canAddNote = true;
     this.tailleM = 350;
     this.monoSynth = new p5.MonoSynth();
@@ -29,7 +28,7 @@ class Ligne {
   }
 
   // checking if the mouse is within the boundaries
-  // of the partoche
+  // of the line
   isMouseInLigne() {
     return (mouseX > 150 && mouseX < (width - 5) &&
       mouseY > (this.hauteur - 40) && mouseY < (this.hauteur + 7 * 20));
@@ -96,7 +95,7 @@ class Ligne {
       y: "",
       queue: "",
       bar: "",
-      hauteur: "" // 4 ou 5
+      hauteur: "" // 4 or 5
     };
 
     const start = this.hauteur - 20;
@@ -205,6 +204,8 @@ class Ligne {
       note.y += 10;
 
     // displaying note name
+    textFont('Arial');
+    textSize(30);
     text(note.nom, mouseX + 10, mouseY);
 
     return note;

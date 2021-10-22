@@ -2,7 +2,7 @@ let partoche;
 let button;
 
 function setup() {
-  createCanvas(400, 600);
+  createCanvas(400, 800);
   background(250);
 
   // partoche object
@@ -10,6 +10,7 @@ function setup() {
     nom: "",
     auteur: "",
     gamme: "",
+    chiffrage:"",
     tempo:"",
     lignes:""
   }
@@ -41,19 +42,27 @@ function setup() {
   gamme.input(gammeEvent);
   text("Gamme : ", 45, 285);
 
+  // GAMME
+  let chiffrage = createInput('');
+  chiffrage.position(180, 400);
+  chiffrage.size(100);
+  chiffrage.input(chiffrageEvent);
+  text("Chiffrage : ", 45, 385);
+
+
   // TEMPO
   let tempo = createInput('');
-  tempo.position(180, 400);
+  tempo.position(180, 500);
   tempo.size(100);
   tempo.input(tempoEvent);
-  text("Tempo : ", 45, 385);
+  text("Tempo : ", 45, 485);
 
   // LIGNES
   let lignes = createInput('');
-  lignes.position(180, 500);
+  lignes.position(180, 600);
   lignes.size(100);
   lignes.input(lignesEvent);
-  text("Nombre de lignes : ", 45, 485);
+  text("Nombre de lignes : ", 45, 585);
 }
 
 function nomEvent() {
@@ -64,6 +73,9 @@ function auteurEvent() {
 }
 function gammeEvent() {
   partoche.gamme = this.value();
+}
+function chiffrageEvent() {
+  partoche.chiffrage = this.value();
 }
 function tempoEvent() {
   partoche.tempo = this.value();

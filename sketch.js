@@ -18,6 +18,7 @@ let partoche;
 let gamme;
 let alterations, frequencies; // JSON
 let numLignes, numAlterations;
+let chiffrage;
 
 /* ------- PRELOAD FUNCTION ------- */
 function preload() {
@@ -62,6 +63,8 @@ function setup() {
   dieses = [ ...bemols].reverse();
   results = getArmature(partoche.gamme); // returns [num, type]
 
+  chiffrage = partoche.chiffrage.split('/'); // [x, y]
+
   // lines
   numLignes = partoche.lignes;
   for (let i = 0; i < numLignes; i++) {
@@ -101,8 +104,18 @@ function draw() {
     /* displaying symbols at the 
      * beginning of lines */
     image(cle_sol, 5, 130 + i * 200);
-    image(c, 60 + numAlterations * 20, 165 + i * 200);
-    c.resize(85, 0);
+
+    // displaying chiffrage
+    if (chiffrage[0] == '4' && chiffrage[1] == '4') {
+      image(c, 60 + numAlterations * 20, 165 + i * 200);
+      c.resize(85, 0);
+    } else {
+      textSize(60);
+      textFont('Times New Roman');
+      let xPos = chiffrage[0] == '12' ? 45 + numAlterations * 30  : 60 + numAlterations * 30;
+      text(chiffrage[0], xPos, 210 + i * 200);
+      text(chiffrage[1], 60 + numAlterations * 30, 250 + i * 200);
+    } 
 
     // displaying the lines
     lignes[i].display();
