@@ -93,11 +93,10 @@ function draw() {
   for (let i = 0; i < numLignes; i++) {
     for (let j = 0; j < results[0]; j++) {
       if (results[1] == 'bemol') {
-        bemol.resize(60, 0);
-        image(bemol, 60 + j*20, 115 + i * 200 + parseInt(notesY_b[bemols[j]]));
+        bemol.resize(80, 0);
+        image(bemol, 60 + j*20, 100 + i * 200 + parseInt(notesY_b[bemols[j]]));
       } else {
-        textSize(30);
-        text('#', 80 + j*20, 160 + i * 200 + parseInt(notesY_d[dieses[j]]));
+        displayDiese(80 + j*20, 160 + i * 200 + parseInt(notesY_d[dieses[j]]));
       }
     }
 
@@ -157,21 +156,6 @@ function mouseReleased() {
   }
 }
 
-function displayTempoNote(x, y) {
-    push();
-    translate(x, y);
-
-    // little bar
-    strokeWeight(2);
-    line(5, 0, 5, -30);
-
-    // elliptic part
-    rotate(-PI / 10);
-    fill(0);
-    ellipse(0, 0, 10, 7);
-    pop();
-}
-
 function getArmature(gamme) {
   let num = 0;
   let type = '';
@@ -197,3 +181,33 @@ function getArmature(gamme) {
 
   return [num, type];
 }
+
+function displayTempoNote(x, y) {
+    push();
+    translate(x, y);
+
+    // little bar
+    strokeWeight(2);
+    line(5, 0, 5, -30);
+
+    // elliptic part
+    rotate(-PI / 10);
+    fill(0);
+    ellipse(0, 0, 10, 7);
+    pop();
+}
+
+function displayDiese(x, y) {
+  push();
+  strokeWeight(2);
+  translate(x, y);
+  line(-4, -18, -4, 18);
+  line(4, -18, 4, 18);
+  rotate(-PI/10);
+  strokeWeight(3);
+  line(-8, -5, 12, -5);
+  line(-10, 5, 10, 5);
+  pop();
+}
+
+
