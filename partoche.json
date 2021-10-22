@@ -2,6 +2,7 @@
   "nom": "Nom de la Partition",
   "auteur": "un auteur anonyme",
   "gamme": "do-majeur",
+  "chiffrage": "4/4",
   "tempo": "60",
   "lignes": 3
 }
