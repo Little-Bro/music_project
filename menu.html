@@ -1,15 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <title>Form test</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.js"></script>
-  <script src="menu.js"></script>
+  <script type="text/javascript" src="./logic.js"></script>
 </head>
 <body>
-  <button onclick="window.location.href='index.html'">
-    Genérer la partoche ! 
-  </button>
-
-  <div id='menu'></div>
+  <div id="input">
+  <label>Nom:</label>
+  <input id="nom"><br><br>
+  
+  <label>Auteur:</label>
+  <input id="auteur"><br><br>
+  
+  <label>Gamme:</label>
+  <input id="gamme"><br><br>
+  
+  <label>Chiffrage:</label>
+  <input id="chiffrage"><br><br>
+  
+  <label>Tempo:</label>
+  <input id="tempo"><br><br>
+  
+  <label>Lignes:</label>
+  <input id="lignes"><br><br>
+  
+  <button onclick="setJSON(nom.value, auteur.value, gamme.value, chiffrage.value, tempo.value, lignes.value)">clique</button>
+</div>
+  
 </body>
 </html>

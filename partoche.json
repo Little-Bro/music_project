@@ -1,8 +1,8 @@
 {
-  "nom": "Nom de la Partition",
-  "auteur": "un auteur anonyme",
-  "gamme": "do-majeur",
-  "chiffrage": "4/4",
-  "tempo": "60",
+  "nom": "Notes aléatoires",
+  "auteur": "Thomas Delmas",
+  "gamme": "dod-majeur",
+  "chiffrage": "6/8",
+  "tempo": "112",
   "lignes": 3
 }
