@@ -212,7 +212,7 @@ class Ligne {
   }
 
   // adding a note
-  addNote(type, bemols, dieses) {
+  addNote(type, bemols, dieses, notes_to_play) {
     if (this.canAddNote) {
       const n = this.determineNote();
       if (n.nom) {
@@ -224,13 +224,13 @@ class Ligne {
         else if (bemols.includes(n.nom))
           n.nom += 'b';
 
-        this.playNote(n.nom, n.hauteur);
+        this.playNote(n.nom, n.hauteur, notes_to_play);
         notes.push(new Note(mouseX, n.y, n.type, n.nom, n.queue, n.bar));
       }
     }
   }
 
-  playNote(nom, hauteur) {
+  playNote(nom, hauteur, notes_to_play) {
     userStartAudio();
     // note velocity (volume, from 0 to 1)
     let velocity = 1;
@@ -241,6 +241,8 @@ class Ligne {
     nom += hauteur;
 
     let freq = this.frequencies[nom];
+    notes_to_play.push(freq);
+    notes_to_play.push('0'); // rest
     this.monoSynth.play(parseInt(freq), velocity, time, dur);
   }
 }

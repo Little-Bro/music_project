@@ -11,14 +11,21 @@ let results = [];
 let notesY_d = [];
 let notesY_b = [];
 
+// playing notes
+notes_to_play = [];
+
 // images
 let cle_sol, c, bemol;
+
+// JSON
+let alterations, frequencies;
+
 // other
 let partoche;
-let gamme;
-let alterations, frequencies; // JSON
 let numLignes, numAlterations;
 let chiffrage;
+let monoSynth;
+let myPhrase, myPart;
 
 /* ------- PRELOAD FUNCTION ------- */
 function preload() {
@@ -36,6 +43,11 @@ function preload() {
 /* ------- SETUP FUNCTION ------- */
 function setup() {
   createCanvas(1400, 800);
+
+  // playing notes
+  monoSynth = new p5.MonoSynth();
+  notes_to_play = ['0'];
+
   // alterations
   numAlterations = 0;
   // TODO : improve this system
@@ -148,11 +160,23 @@ function mouseReleased() {
   for (ligne of lignes) {
     if (ligne.isMouseInLigne()) {
       if (keyIsDown(SHIFT))
-        ligne.addNote('blanche', bemols_notes, dieses_notes);
+        ligne.addNote('blanche', bemols_notes, dieses_notes, notes_to_play);
       else
-        ligne.addNote('noire', bemols_notes, dieses_notes);
+        ligne.addNote('noire', bemols_notes, dieses_notes, notes_to_play);
     }
   }
+}
+
+function keyReleased() {
+  if (keyCode == ENTER) {
+    console.log(notes_to_play);
+    myPhrase = new p5.Phrase('test', onEachStep, notes_to_play);
+    myPart = new p5.Part();
+    myPart.addPhrase(myPhrase);
+    myPart.setBPM(60);
+    playMyPart();
+  }
+    //console.log(notes_to_play);
 }
 
 function getArmature(gamme) {
@@ -210,3 +234,22 @@ function displayDiese(x, y) {
 }
 
 
+//// PLAYING NOTES /////
+function onEachStep(time, freq) {
+  playNote(time, freq);
+}
+
+function playMyPart() {
+  userStartAudio();
+  myPart.start();
+}
+
+  function playNote(time, freq) {
+    userStartAudio();
+    // note velocity (volume, from 0 to 1)
+    let velocity = 1;
+    // note duration (in seconds)
+    let dur = 1/6;
+    if (parseInt(freq) != 0)
+      monoSynth.play(parseInt(freq), velocity, time, dur);
+  }
