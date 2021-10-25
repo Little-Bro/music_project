@@ -21,6 +21,7 @@ let cle_sol, c, bemol;
 let alterations, frequencies;
 
 // other
+let playButton;
 let partoche;
 let numLignes, numAlterations;
 let chiffrage;
@@ -44,9 +45,15 @@ function preload() {
 function setup() {
   createCanvas(1400, 800);
 
+  playButton = createButton('Jouer');
+  playButton.position(width - 70 , 50);
+  playButton.size(70, 70);
+  playButton.mouseClicked(playButtonClicked);
   // playing notes
   monoSynth = new p5.MonoSynth();
-  notes_to_play = ['0'];
+  notes_to_play = ['0', '0', '0'];  
+  /* there's padding at the start
+   so it has time to set up everything */
 
   // alterations
   numAlterations = 0;
@@ -156,6 +163,15 @@ function draw() {
 }
 
 /* ------- UTILITY FUNCTIONS ------- */
+function playButtonClicked() {
+  // console.log(notes_to_play);
+  myPhrase = new p5.Phrase('test', onEachStep, notes_to_play);
+  myPart = new p5.Part();
+  myPart.addPhrase(myPhrase);
+  myPart.setBPM(60);
+  playMyPart();
+}
+
 function mouseReleased() {
   for (ligne of lignes) {
     if (ligne.isMouseInLigne()) {
@@ -165,18 +181,6 @@ function mouseReleased() {
         ligne.addNote('noire', bemols_notes, dieses_notes, notes_to_play);
     }
   }
-}
-
-function keyReleased() {
-  if (keyCode == ENTER) {
-    console.log(notes_to_play);
-    myPhrase = new p5.Phrase('test', onEachStep, notes_to_play);
-    myPart = new p5.Part();
-    myPart.addPhrase(myPhrase);
-    myPart.setBPM(60);
-    playMyPart();
-  }
-    //console.log(notes_to_play);
 }
 
 function getArmature(gamme) {
@@ -233,7 +237,6 @@ function displayDiese(x, y) {
   pop();
 }
 
-
 //// PLAYING NOTES /////
 function onEachStep(time, freq) {
   playNote(time, freq);
@@ -244,12 +247,10 @@ function playMyPart() {
   myPart.start();
 }
 
-  function playNote(time, freq) {
+function playNote(time, freq) {
     userStartAudio();
-    // note velocity (volume, from 0 to 1)
     let velocity = 1;
-    // note duration (in seconds)
     let dur = 1/6;
     if (parseInt(freq) != 0)
       monoSynth.play(parseInt(freq), velocity, time, dur);
-  }
+}

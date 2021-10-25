@@ -242,7 +242,7 @@ class Ligne {
 
     let freq = this.frequencies[nom];
     notes_to_play.push(freq);
-    notes_to_play.push('0'); // rest
+    // notes_to_play.push('0'); // rest
     this.monoSynth.play(parseInt(freq), velocity, time, dur);
   }
 }
