@@ -1,8 +1,8 @@
 {
-  "nom": "Sonate pour queue",
+  "nom": "Pure oeuvre d'art",
   "auteur": "Thomas",
-  "gamme": "fab-majeur",
-  "chiffrage": "6/8",
+  "gamme": "re-majeur",
+  "chiffrage": "4/4",
   "tempo": "112",
-  "lignes": "2"
+  "lignes": "3"
 }

@@ -12,6 +12,7 @@ let notesY_d = [];
 let notesY_b = [];
 
 // playing notes
+let compteur = 0;
 notes_to_play = [];
 
 // images
@@ -42,16 +43,18 @@ function preload() {
 }
 
 /* ------- SETUP FUNCTION ------- */
-function setup() {
+function setup() {  
   createCanvas(1400, 800);
 
+  // play button
   playButton = createButton('Jouer');
   playButton.position(width - 70 , 50);
   playButton.size(70, 70);
   playButton.mouseClicked(playButtonClicked);
+  
   // playing notes
   monoSynth = new p5.MonoSynth();
-  notes_to_play = ['0', '0', '0'];  
+  notes_to_play = [];  
   /* there's padding at the start
    so it has time to set up everything */
 
@@ -108,6 +111,11 @@ function setup() {
 function draw() {
   background(255);
 
+  if (compteur >= notes_to_play.length) {
+    metronome.stop();
+    compteur = 0;
+  }
+
   // displaying alterations
   for (let i = 0; i < numLignes; i++) {
     for (let j = 0; j < results[0]; j++) {
@@ -163,15 +171,6 @@ function draw() {
 }
 
 /* ------- UTILITY FUNCTIONS ------- */
-function playButtonClicked() {
-  // console.log(notes_to_play);
-  myPhrase = new p5.Phrase('test', onEachStep, notes_to_play);
-  myPart = new p5.Part();
-  myPart.addPhrase(myPhrase);
-  myPart.setBPM(60);
-  playMyPart();
-}
-
 function mouseReleased() {
   for (ligne of lignes) {
     if (ligne.isMouseInLigne()) {
@@ -212,11 +211,9 @@ function getArmature(gamme) {
 function displayTempoNote(x, y) {
     push();
     translate(x, y);
-
     // little bar
     strokeWeight(2);
     line(5, 0, 5, -30);
-
     // elliptic part
     rotate(-PI / 10);
     fill(0);
@@ -237,20 +234,39 @@ function displayDiese(x, y) {
   pop();
 }
 
-//// PLAYING NOTES /////
-function onEachStep(time, freq) {
-  playNote(time, freq);
+function Metronome(workFunc, interval) {
+  let that = this;
+  let expected, timeout;
+  this.interval = interval;
+
+  this.start = function() {
+    expected = Date.now() + this.interval;
+    timeout = setTimeout(step, this.interval);
+  }
+
+  this.stop = function() {
+    clearTimeout(timeout);
+  }
+
+  function step() {
+    var drift = Date.now() - expected;
+    workFunc();
+    expected += that.interval;
+    timeout = setTimeout(step, Math.max(0, that.interval-drift));
+  }
 }
 
-function playMyPart() {
-  userStartAudio();
-  myPart.start();
-}
+let tick = function() {
+  monoSynth.play(parseInt(notes_to_play[compteur]), 1, 0, 1/6);
+  compteur++;
+};
 
-function playNote(time, freq) {
-    userStartAudio();
-    let velocity = 1;
-    let dur = 1/6;
-    if (parseInt(freq) != 0)
-      monoSynth.play(parseInt(freq), velocity, time, dur);
+let metronome = new Metronome(tick, 1000);
+
+function playButtonClicked() {
+  let tempo;
+  tempo = 60 / parseInt(partoche.tempo) * 1000;
+  metronome.interval = tempo;
+  compteur = 0;
+  metronome.start();
 }
