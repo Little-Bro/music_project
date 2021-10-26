@@ -1,7 +1,9 @@
 class Ligne {
-  constructor(hauteur, frequencies) {
+  constructor(hauteur, frequencies, bemols, dieses) {
     this.hauteur = hauteur;
     this.frequencies = frequencies;
+    this.bemols = bemols;
+    this.dieses = dieses;
     this.canAddNote = true;
     this.tailleM = 350;
     this.monoSynth = new p5.MonoSynth();
@@ -212,25 +214,25 @@ class Ligne {
   }
 
   // adding a note
-  addNote(type, bemols, dieses, notes_to_play) {
+  addNote(type, notesToPlay) {
     if (this.canAddNote) {
       const n = this.determineNote();
       if (n.nom) {
         n.type = type;
 
         // are there any alterations ?
-        if (dieses.includes(n.nom))
+        if (this.dieses.includes(n.nom))
           n.nom += 'd';
-        else if (bemols.includes(n.nom))
+        else if (this.bemols.includes(n.nom))
           n.nom += 'b';
 
-        this.playNote(n.nom, n.hauteur, notes_to_play);
+        this.playNote(n.nom, n.hauteur, notesToPlay);
         notes.push(new Note(mouseX, n.y, n.type, n.nom, n.queue, n.bar));
       }
     }
   }
 
-  playNote(nom, hauteur, notes_to_play) {
+  playNote(nom, hauteur, notesToPlay) {
     userStartAudio();
     // note velocity (volume, from 0 to 1)
     let velocity = 1;
@@ -241,7 +243,7 @@ class Ligne {
     nom += hauteur;
 
     let freq = this.frequencies[nom];
-    notes_to_play.push(freq);
+    notesToPlay.push(freq);
     this.monoSynth.play(parseInt(freq), velocity, time, dur);
   }
 }
