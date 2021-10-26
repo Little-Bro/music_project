@@ -2,18 +2,15 @@
 // lists
 let notes = [];
 let lignes = [];
-let dieses = [];
-let bemols = [];
-let bemols_notes = [];
+let bemolsNotes = [];
 let dieses_notes = [];
-
-let results = [];
-let notesY_d = [];
-let notesY_b = [];
+let armure = [];
+let diesesHauteurs = [];
+let bemolsHauteurs = [];
+let notesToPlay = [];
 
 // playing notes
 let compteur = 0;
-notes_to_play = [];
 
 // images
 let cle_sol, c, bemol;
@@ -27,7 +24,6 @@ let partoche;
 let numLignes, numAlterations;
 let chiffrage;
 let monoSynth;
-let myPhrase, myPart;
 
 /* ------- PRELOAD FUNCTION ------- */
 function preload() {
@@ -35,7 +31,6 @@ function preload() {
   cle_sol = loadImage('./img/cle_sol.png');
   c = loadImage('./img/c.png');
   bemol = loadImage('./img/bemol.png');
-
   // JSON
   alterations = loadJSON('./json/alterations.json');
   frequencies = loadJSON('./json/frequencies.json');
@@ -45,23 +40,17 @@ function preload() {
 /* ------- SETUP FUNCTION ------- */
 function setup() {  
   createCanvas(1400, 800);
-
   // play button
   playButton = createButton('Jouer');
   playButton.position(width - 70 , 50);
   playButton.size(70, 70);
   playButton.mouseClicked(playButtonClicked);
-  
   // playing notes
   monoSynth = new p5.MonoSynth();
-  notes_to_play = [];  
-  /* there's padding at the start
-   so it has time to set up everything */
-
+  notesToPlay = [];  
   // alterations
   numAlterations = 0;
-  // TODO : improve this system
-  notesY_d = {
+  diesesHauteurs = {
     "fa": '20',
     "do": '50',
     "sol": '10',
@@ -70,8 +59,7 @@ function setup() {
     "mi": '30',
     "si": '60',
   };
-
-  notesY_b = {
+  bemolsHauteurs = {
     "si": '60',
     "mi": '30',
     "la": '70',
@@ -80,30 +68,25 @@ function setup() {
     "do": '50',
     "fa": '90',
   };
-
-  bemols = ['si', 'mi', 'la', 're', 'sol', 'do', 'fa'];
-  dieses = [ ...bemols].reverse();
-  results = getArmature(partoche.gamme); // returns [num, type]
-
+  // taking information from ./json/partoche.json
+  armure = getArmure(partoche.gamme); // returns [num, type]
   chiffrage = partoche.chiffrage.split('/'); // [x, y]
-
-  // lines
   numLignes = partoche.lignes;
+  // alterated notes are placed in bemolsNotes and diesesNotes
   for (let i = 0; i < numLignes; i++) {
-    lignes.push(new Ligne(150 + i * 200, frequencies));
-  }
-
-  // alterated notes are placed in bemols_notes and dieses_notes
-  for (let i = 0; i < numLignes; i++) {
-    for (let j = 0; j < results[0]; j++) {
-      if (results[1] == 'bemol' && i == 0) {
-        bemols_notes.push(Object.keys(notesY_b)[j]);
+    for (let j = 0; j < armure[0]; j++) {
+      if (armure[1] == 'bemol' && i == 0) {
+        bemolsNotes.push(Object.keys(bemolsHauteurs)[j]);
         numAlterations++;
-      } else if (results[1] == 'diese' && i == 0) {
-        dieses_notes.push(Object.keys(notesY_d)[j]);
+      } else if (armure[1] == 'diese' && i == 0) {
+        dieses_notes.push(Object.keys(diesesHauteurs)[j]);
         numAlterations++;
       }
     }
+  }
+    // filling the lines array
+  for (let i = 0; i < numLignes; i++) {
+    lignes.push(new Ligne(150 + i * 200, frequencies, bemolsNotes, dieses_notes));
   }
 }
 
@@ -111,84 +94,33 @@ function setup() {
 function draw() {
   background(255);
 
-  if (compteur >= notes_to_play.length) {
+  if (compteur >= notesToPlay.length) {
     metronome.stop();
     compteur = 0;
   }
 
-  // displaying alterations
-  for (let i = 0; i < numLignes; i++) {
-    for (let j = 0; j < results[0]; j++) {
-      if (results[1] == 'bemol') {
-        bemol.resize(80, 0);
-        image(bemol, 60 + j*20, 100 + i * 200 + parseInt(notesY_b[bemols[j]]));
-      } else {
-        displayDiese(80 + j*20, 160 + i * 200 + parseInt(notesY_d[dieses[j]]));
-      }
-    }
-
-    /* displaying symbols at the 
-     * beginning of lines */
-    image(cle_sol, 5, 130 + i * 200);
-
-    // displaying chiffrage
-    if (chiffrage[0] == '4' && chiffrage[1] == '4') {
-      image(c, 60 + numAlterations * 20, 165 + i * 200);
-      c.resize(85, 0);
-    } else {
-      textSize(60);
-      textFont('Times New Roman');
-      text(chiffrage[0], results[0]*20 + 90, 210 + i * 200);
-      text(chiffrage[1], results[0]*20 + 90, 250 + i * 200);
-    } 
-
-    // displaying the lines
-    lignes[i].display();
-
-    // green / red cursor
-    if (lignes[i].isMouseInLigne()) {
-      lignes[i].checkMouse(lignes[i].isMouseColliding(notes));
-    }
-  }
-
-  // displaying name of partoche
-  textSize(60);
-  text(partoche.nom, width / 2 - (partoche.nom.length * 10), 80);
-  textSize(20);
-  text(`par ${partoche.auteur}`, width / 2 - (partoche.auteur.length * 5), 110);
-
-  // displaying tempo
-  displayTempoNote(110, 120);
-  textSize(24);
-  text(`= ${partoche.tempo}`, 130, 125);
-
-  // displaying the notes
-  if (notes.length != 0) {
-    for (note of notes) {
-      note.display();
-    }
-  }
+  displaySymbolsAndCursor();
+  displayNameAndTempo();
+  displayNotes();
 }
 
-/* ------- UTILITY FUNCTIONS ------- */
+/* ------- SOME UTILITY FUNCTIONS ------- */
 function mouseReleased() {
   for (ligne of lignes) {
     if (ligne.isMouseInLigne()) {
       if (keyIsDown(SHIFT))
-        ligne.addNote('blanche', bemols_notes, dieses_notes, notes_to_play);
+        ligne.addNote('blanche', notesToPlay);
       else
-        ligne.addNote('noire', bemols_notes, dieses_notes, notes_to_play);
+        ligne.addNote('noire', notesToPlay);
     }
   }
 }
 
-function getArmature(gamme) {
+function getArmure(gamme) {
   let num = 0;
   let type = '';
-
   let d = Object.values(alterations)[0];
   let b = Object.values(alterations)[1];
-
   // dieses
   for (let i = 0; i < Object.values(d).length; i++) {
     if (Object.values(d)[i].includes(gamme)) {
@@ -196,7 +128,6 @@ function getArmature(gamme) {
       type = 'diese';
     }
   }
-  
   // bemols
   for (let i = 0; i < Object.values(b).length; i++) {
     if (Object.values(b)[i].includes(gamme)) {
@@ -204,42 +135,11 @@ function getArmature(gamme) {
       type = 'bemol';
     }
   }
-
   return [num, type];
 }
 
-function Metronome(workFunc, interval) {
-  let that = this;
-  let expected, timeout;
-  this.interval = interval;
-
-  this.start = function() {
-    expected = Date.now() + this.interval;
-    timeout = setTimeout(step, this.interval);
-  }
-
-  this.stop = function() {
-    clearTimeout(timeout);
-  }
-
-  function step() {
-    var drift = Date.now() - expected;
-    workFunc();
-    expected += that.interval;
-    timeout = setTimeout(step, Math.max(0, that.interval-drift));
-  }
-}
-
-let tick = function() {
-  monoSynth.play(parseInt(notes_to_play[compteur]), 1, 0, 1/6);
-  compteur++;
-};
-
-let metronome = new Metronome(tick, 1000);
-
 function playButtonClicked() {
-  let tempo;
-  tempo = 60 / parseInt(partoche.tempo) * 1000;
+  let tempo = 60 / parseInt(partoche.tempo) * 1000;
   metronome.interval = tempo;
   compteur = 0;
   metronome.start();
