@@ -14,17 +14,6 @@ function displaySymbolsAndCursor() {
      * beginning of lines */
     image(cle_sol, 5, 130 + i * 200);
 
-    // displaying chiffrage
-    if (chiffrage[0] == '4' && chiffrage[1] == '4') {
-      image(c, 60 + numAlterations * 20, 165 + i * 200);
-      c.resize(85, 0);
-    } else {
-      textSize(60);
-      textFont('Times New Roman');
-      text(chiffrage[0], armure[0]*20 + 90, 210 + i * 200);
-      text(chiffrage[1], armure[0]*20 + 90, 250 + i * 200);
-    } 
-
     // displaying the lines
     lignes[i].display();
 
@@ -33,6 +22,16 @@ function displaySymbolsAndCursor() {
       lignes[i].checkMouse(lignes[i].isMouseColliding(notes));
     }
   }
+      // displaying chiffrage
+    if (chiffrage[0] == '4' && chiffrage[1] == '4') {
+      image(c, 60 + numAlterations * 20 + 10, 165);
+      c.resize(85, 0);
+    } else {
+      textSize(60);
+      textFont('Times New Roman');
+      text(chiffrage[0], armure[0]*20 + 90, 210);
+      text(chiffrage[1], armure[0]*20 + 90, 250);
+    } 
 }
 
 function displayTempoNote(x, y) {
